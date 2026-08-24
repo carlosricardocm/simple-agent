@@ -1,24 +1,21 @@
 """
-agent.py -- Un agente de IA mínimo, sin frameworks.
+agent.py
 
-Tres piezas y nada más:
+Tres módulos principales:
   1. Memoria      -> self.history
   2. Herramientas -> self.tools (lo que el modelo ve) + los métodos que las ejecutan
   3. Decisión     -> process_interaction() revisa si el modelo pidió una herramienta
 
-Basado en el proyecto "Tu primer agente de IA" (Ringa Tech), portado de la
-API de OpenAI a la API de Gemini (google-genai).
 """
 
-import os
+import os 
 import json
 
 
 class Agent:
 
     SYSTEM_PROMPT = (
-        "Eres un asistente útil que habla español y eres muy conciso "
-        "con tus respuestas."
+        "Eres un asistente que habla español y eres muy conciso con tus respuestas. "        
     )
 
     def __init__(self):
@@ -26,7 +23,7 @@ class Agent:
         self.history = []          # memoria de la conversación
 
     # ------------------------------------------------------------------
-    # 1. Declaración de herramientas: lo único que el modelo "ve"
+    # 1. Descripción de las herramientas que el modelo puede usar
     # ------------------------------------------------------------------
     def setup_tools(self):
         self.tools = [
@@ -101,7 +98,7 @@ class Agent:
         ]
 
     # ------------------------------------------------------------------
-    # 2. Implementación de las herramientas: código Python normal
+    # 2. Implementación de las herramientas
     # ------------------------------------------------------------------
     def list_files_in_dir(self, directory="."):
         print("  [herramienta] list_files_in_dir")
