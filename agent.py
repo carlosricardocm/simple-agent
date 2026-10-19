@@ -120,25 +120,22 @@ class Agent:
     def edit_file(self, path, new_text, prev_text=""):
         print("  [herramienta] edit_file")
         try:
-            existed = os.path.exists(path)
-            if existed and prev_text:
-                content = self.read_file(path)
-                if prev_text not in content:
-                    return f"Texto {prev_text} no encontrado en el archivo"
-                content = content.replace(prev_text, new_text)
-            else:
-                dir_name = os.path.dirname(path)
-                if dir_name:
-                    os.makedirs(dir_name, exist_ok=True)
-                content = new_text
+            # Sin prev_text: se escribe el archivo completo (se crea o se sobrescribe)
+            if not prev_text:
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(new_text)
+                return f"Archivo {path} escrito exitosamente"
 
+            # Con prev_text: se lee, se verifica, se reemplaza y se escribe
+            with open(path, encoding="utf-8") as f:
+                content = f.read()
+            if prev_text not in content:
+                return f"Texto {prev_text} no encontrado en el archivo"
             with open(path, "w", encoding="utf-8") as f:
-                f.write(content)
-
-            action = "editado" if existed and prev_text else "creado"
-            return f"Archivo {path} {action} exitosamente"
-        except Exception:
-            err = f"Error al crear o editar el archivo {path}"
+                f.write(content.replace(prev_text, new_text))
+            return f"Archivo {path} editado exitosamente"
+        except Exception as e:
+            err = f"Error al crear o editar el archivo {path}: {e}"
             print(err)
             return err
 
