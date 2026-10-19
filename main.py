@@ -10,7 +10,7 @@ from agent import Agent
 
 load_dotenv()
 
-MODEL = "gemini-3.7-flash"
+MODEL = "gemini-3.8-flash"
 
 print("Agentito")
 print("Escribe 'salir' para terminar.\n")
